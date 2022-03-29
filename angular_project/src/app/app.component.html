@@ -1,3 +1,8 @@
-<h1>{{myObs | async}}</h1>
+<h1>{{count$ | async}}</h1>
+
+<div *ngFor="let a of array">
+    <p>{{a}}</p>
+    <p>----------</p>
+</div>
 
 <router-outlet></router-outlet>

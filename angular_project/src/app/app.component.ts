@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { interval, Observable } from 'rxjs';
+import { decrement, increment, reset } from './counter.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,10 +9,34 @@ import { interval, Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  myObs:Observable<number>;
-  constructor(){
-    this.myObs = interval(1000);
+  count$: Observable<number>;
+
+  array: string[] = [];
+
+  constructor(private store: Store<{ count: number }>) {
+    this.count$ = store.select('count');
+
+    for (let index = 0; index < 30; index++) {
+      this.array.push('HELLO ' + index);
+    }
+
+    console.log(this.array);
+
+    interval(1000).subscribe(() => {
+      this.increment();
+    });
   }
 
-  
+  increment() {
+    this.store.dispatch(increment());
+  }
+
+  decrement() {
+    this.store.dispatch(decrement());
+  }
+
+  reset() {
+    this.store.dispatch(reset());
+  }
+
 }
